@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: guardian-for-parents
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npx tsx server.ts
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: NODE_ENV
+        value: production
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ENABLE_DEMO_ACCOUNTS
+        value: "false"
+      - key: CORS_ORIGINS
+        value: "https://localhost,capacitor://localhost"
+      - key: VITE_API_BASE_URL
+        value: ""
+      - key: VITE_APP_ENV
+        value: production

@@ -1,0 +1,1115 @@
+# MASTER IMPLEMENTATION PROMPT
+# GUARDIAN – INTERCONNECTED INTELLIGENCE & FAMILY-WIDE INFORMATION SHARING SYSTEM
+
+## ROLE
+
+Act as a Senior Android Architect, Full-Stack Developer, AI Security Engineer, Database Architect and Cybersecurity Product Engineer.
+
+You are working on my existing project:
+
+**Guardian for Parents**
+
+Your task is to enhance the existing application by implementing a unified, interconnected intelligence architecture that connects all individual security sections and enables automatic, relevant information sharing across authorised family devices.
+
+This is an enhancement to an existing application, NOT a new application.
+
+---
+
+# 1. PRIMARY OBJECTIVE
+
+Currently, Guardian has multiple individual security features, such as:
+
+- Call Scam Detection
+- SMS Scam Detection
+- QR Scam Detection
+- Link Scam Detection
+- Payment Safety
+- Behavioural Analysis
+- Guardian Security Intelligence (GSI)
+- Smart Red Alert System
+- Parent and Child Dashboards
+- Security History and Incident Management
+
+The objective is to make all these sections interconnected.
+
+Every section must be capable of:
+
+1. Detecting and collecting relevant information through its existing functionality.
+2. Sending discovered intelligence to a central shared intelligence system.
+3. Receiving relevant intelligence from other sections.
+4. Automatically updating its own information and analysis.
+5. Displaying both its directly detected information and shared intelligence.
+6. Contributing evidence to a central risk assessment system.
+7. Synchronising permitted intelligence across authorised linked family devices.
+
+## Core principle
+
+INFORMATION SHOULD BE COLLECTED ONCE, SHARED INTELLIGENTLY, ANALYSED IN EVERY RELEVANT SECTION AND DISPLAYED WHERE IT IS USEFUL.
+
+The user must not need to manually enter the same information in multiple sections.
+
+---
+
+# 2. STRICT PROJECT PRESERVATION RULES
+
+Before writing or modifying any code, inspect the entire existing project.
+
+Identify:
+
+- Existing application architecture.
+- Existing Parent and Child account systems.
+- Existing authentication.
+- Existing family linking functionality.
+- Existing database and backend.
+- Existing Call Watcher.
+- Existing SMS monitoring.
+- Existing QR scanner.
+- Existing Payment Safety functionality.
+- Existing Link Scanner.
+- Existing Guardian Security Intelligence.
+- Existing risk assessment engine.
+- Existing notification system.
+- Existing Smart Red Alert System.
+- Existing dashboards and navigation.
+- Existing permissions and Android native integrations.
+
+Create an internal architecture map identifying which modules already exist and which functionality is missing.
+
+### Non-negotiable rules
+
+1. Do not rewrite the complete application.
+2. Do not replace existing working features.
+3. Do not create duplicate call monitoring, SMS monitoring, QR scanning or notification services.
+4. Do not create a second authentication or family-linking system.
+5. Do not replace the existing database or backend architecture without a demonstrated technical necessity.
+6. Do not change the app's existing design language, navigation or Trust colour theme unnecessarily.
+7. Do not remove existing functionality.
+8. Reuse existing components, services, repositories, APIs and database models wherever possible.
+9. Modify only files necessary for this enhancement.
+10. Preserve existing working functionality and backward compatibility.
+
+If a feature already exists, extend it rather than creating another implementation.
+
+If an essential backend capability is missing, explain what is required and integrate it into the existing architecture where possible.
+
+Do not create fake functionality or placeholder success messages.
+
+---
+
+# 3. CENTRAL GUARDIAN INTELLIGENCE HUB
+
+Create or extend a single central intelligence layer named:
+
+GUARDIAN CENTRAL INTELLIGENCE HUB (GCIH)
+
+This will connect all existing security sections.
+
+It must act as a common information exchange and intelligence-processing layer.
+
+### Responsibilities
+
+- Receive information from individual modules.
+- Identify and normalise entities.
+- Maintain shared intelligence records.
+- Identify relationships between entities and events.
+- Distribute relevant information to appropriate modules.
+- Synchronise authorised intelligence across family devices.
+- Trigger automatic reassessment when new information arrives.
+- Update associated security incidents.
+- Communicate relevant changes to the Smart Red Alert System.
+
+### Important architectural distinction
+
+The central intelligence hub must NOT replace individual detection engines.
+
+Each section must retain its own detection logic.
+
+For example:
+
+- Call Scam remains responsible for analysing call-related activity.
+- SMS Scam remains responsible for analysing messages.
+- QR Scam remains responsible for QR-related analysis.
+- Link Scam remains responsible for URL and domain analysis.
+- Payment Safety remains responsible for payment-related analysis.
+
+The central hub only coordinates, connects and distributes relevant information.
+
+---
+
+# 4. SHARED ENTITY INTELLIGENCE DATABASE
+
+Create or extend a central entity repository.
+
+The repository must support different types of security indicators.
+
+### Supported entity types
+
+1. Phone numbers.
+2. UPI IDs.
+3. URLs.
+4. Domains.
+5. SMS sender identifiers.
+6. Email addresses.
+7. Bank identifiers.
+8. Merchant or recipient identifiers.
+9. QR code fingerprints.
+10. Other relevant security indicators discovered by existing modules.
+
+### Entity record structure
+
+Each entity should support:
+
+- Unique entity ID.
+- Entity type.
+- Normalised entity value or protected representation.
+- First detected timestamp.
+- Last detected timestamp.
+- Source module.
+- Source device ID.
+- Family ID.
+- Risk classification.
+- Confidence level.
+- Supporting evidence references.
+- Related event IDs.
+- Related incident IDs.
+- Verification status.
+- User feedback.
+- Record version.
+- Last updated timestamp.
+
+Use appropriate validation and normalisation.
+
+For example:
+
+- Normalise phone numbers using appropriate country codes.
+- Normalise domains and URLs before matching.
+- Normalise UPI identifiers without changing their meaning.
+- Avoid false entity matches caused by formatting differences.
+
+For sensitive identifiers, use secure storage and carefully designed indexing. Do not expose raw personal information unnecessarily.
+
+### Entity verification states
+
+Support statuses such as:
+
+- Unknown.
+- Unverified.
+- Suspicious.
+- High risk.
+- Confirmed malicious.
+- Verified legitimate.
+- Disputed.
+- Under review.
+
+Do not automatically label an entity as confirmed malicious simply because an individual detection module flagged it.
+
+---
+
+# 5. EVENT-DRIVEN INFORMATION SHARING
+
+Implement a central event-driven communication mechanism.
+
+Each existing module should publish relevant events when it detects or updates information.
+
+Example events:
+
+- CALL_DETECTED
+- SUSPICIOUS_CALL_IDENTIFIED
+- SMS_RECEIVED
+- SUSPICIOUS_SMS_IDENTIFIED
+- PHONE_NUMBER_EXTRACTED
+- QR_CODE_SCANNED
+- QR_DESTINATION_IDENTIFIED
+- SUSPICIOUS_UPI_IDENTIFIED
+- URL_EXTRACTED
+- MALICIOUS_URL_IDENTIFIED
+- PAYMENT_RISK_IDENTIFIED
+- ENTITY_STATUS_UPDATED
+- USER_FEEDBACK_RECEIVED
+- INCIDENT_CREATED
+- INCIDENT_UPDATED
+
+### Standard event structure
+
+Each event should support:
+
+- Event ID.
+- Event type.
+- Source module.
+- Source device ID.
+- Family ID.
+- Entity references.
+- Event timestamp.
+- Processing timestamp.
+- Evidence references.
+- Risk assessment reference.
+- Consent and permission context.
+- Schema version.
+- Processing status.
+
+### Processing requirements
+
+Implement:
+
+- Unique event IDs.
+- Idempotent event processing.
+- Duplicate detection.
+- Retry mechanisms.
+- Failure handling.
+- Offline event queues.
+- Event ordering where required.
+- Schema versioning.
+- Secure synchronisation.
+- Event acknowledgement.
+- Audit logging.
+
+Do not repeatedly process the same event or generate duplicate intelligence records.
+
+---
+
+# 6. INTELLIGENT SECTION-TO-SECTION CONNECTIONS
+
+Connect all relevant existing modules automatically.
+
+Use the following relationship rules as the initial mapping.
+
+## A. Call Scam
+
+Must receive relevant intelligence from:
+
+- SMS Scam: extracted suspicious phone numbers.
+- Payment Safety: phone numbers associated with suspicious payment requests.
+- User reports: reported scam callers.
+- Family intelligence: previously identified suspicious numbers.
+
+Must display:
+
+- Directly detected calls.
+- Previous associations with suspicious messages.
+- Previous relevant security incidents.
+- Shared risk indicators.
+- Current section-specific assessment.
+
+If a number previously appeared in a suspicious SMS, Call Scam must use that information when the same number calls.
+
+It must not automatically classify the call as confirmed fraud.
+
+## B. SMS Scam
+
+Must receive relevant intelligence from:
+
+- Call Scam: previously suspicious phone numbers.
+- Link Scam: previously identified malicious URLs and domains.
+- Payment Safety: suspicious UPI IDs and payment identifiers.
+- Family intelligence: previously reported entities.
+
+Must display:
+
+- Directly detected suspicious messages.
+- Extracted phone numbers.
+- Extracted URLs.
+- Payment-related indicators.
+- Previously identified associations.
+- Related incidents.
+
+If an SMS contains a known malicious URL, Link Scam intelligence must be available automatically.
+
+## C. QR Scam
+
+Must receive relevant intelligence from:
+
+- Payment Safety: suspicious UPI IDs and payment destinations.
+- Link Scam: malicious URLs and domains.
+- Family intelligence: previously reported QR fingerprints and destinations.
+- User reports: previously reported QR-related scams.
+
+Must display:
+
+- Direct QR scan information.
+- Extracted destination.
+- Extracted UPI ID, where available.
+- URL analysis, where applicable.
+- Related payment warnings.
+- Previously reported associations.
+
+A QR code containing a URL must automatically share that URL with Link Scam.
+
+A QR code containing a UPI ID must automatically share that indicator with Payment Safety.
+
+Do not assume that every QR code is malicious.
+
+## D. Link Scam
+
+Must receive relevant intelligence from:
+
+- SMS Scam: URLs extracted from messages.
+- QR Scam: URLs extracted from QR codes.
+- Payment Safety: suspicious payment-related destinations.
+- Family intelligence: previously reported domains.
+
+Must display:
+
+- Directly scanned URLs.
+- URLs discovered by other modules.
+- Domain reputation.
+- Phishing indicators.
+- Related events.
+- Current verification status.
+
+If a URL discovered through QR scanning is already known to Link Scam, update the existing entity rather than creating another unrelated record.
+
+## E. Payment Safety
+
+Must receive relevant intelligence from:
+
+- QR Scam: UPI IDs and payment destinations.
+- SMS Scam: payment requests and suspicious bank-related identifiers.
+- Call Scam: relevant phone numbers associated with payment scams.
+- Family intelligence: reported fraudulent payment indicators.
+
+Must display:
+
+- Directly detected payment-related activity.
+- Extracted payment identifiers.
+- Suspicious payment destinations.
+- Related call and SMS evidence.
+- Existing warnings associated with the entity.
+
+Do not initiate, approve or execute financial transactions.
+
+## F. Behavioural Analysis
+
+Must receive relevant permitted events from every connected section.
+
+Its responsibility is to identify patterns across multiple events.
+
+Examples:
+
+- Suspicious call followed by payment request.
+- Suspicious SMS containing a malicious URL.
+- QR scan followed by a suspicious payment request.
+- Repeated attempts to contact the same user.
+- Multiple different indicators associated with the same incident.
+
+Do not assume that two events are related merely because they happened close together.
+
+Use matching entities, event relationships, time windows and supporting evidence.
+
+---
+
+# 7. DIRECT DETECTION AND SHARED INTELLIGENCE DISPLAY
+
+Every individual security section must have two clearly distinguishable information areas.
+
+### A. Direct Detection
+
+Displays information discovered by that particular section.
+
+Examples:
+
+- Calls directly detected by Call Scam.
+- Messages directly analysed by SMS Scam.
+- QR codes scanned by QR Scam.
+- URLs directly submitted to Link Scam.
+- Payment information directly analysed by Payment Safety.
+
+### B. Shared Intelligence
+
+Displays relevant information received from other Guardian modules or authorised family devices.
+
+Every shared item should show:
+
+- Original source module.
+- Original discovery time.
+- Source device or authorised family context, where appropriate.
+- Reason it was shared.
+- Related entity.
+- Related event.
+- Verification status.
+
+### C. Combined Assessment
+
+Every section should calculate its own assessment using:
+
+- Direct detection evidence.
+- Relevant shared intelligence.
+- Entity verification status.
+- Confidence.
+- Evidence quality.
+- Current event context.
+
+Do not simply copy another section's risk score.
+
+The section must retain its own specialised analysis.
+
+### UI requirements
+
+- Keep the existing section layout wherever possible.
+- Add Direct Detection and Shared Intelligence areas to existing screens.
+- Use the existing Trust design system.
+- Maintain existing light and dark modes.
+- Make source attribution easy to understand.
+- Allow users to open related events and incidents.
+- Avoid displaying irrelevant information.
+- Avoid unnecessary duplicate cards.
+
+---
+
+# 8. AUTOMATIC CROSS-SECTION CORRELATION
+
+Implement an automatic entity and event relationship engine.
+
+It should identify:
+
+- The same phone number appearing in multiple messages and calls.
+- The same URL appearing in SMS and QR scans.
+- The same UPI ID appearing in QR and payment-related events.
+- Related payment requests and suspicious calls.
+- Repeated security events associated with a common entity.
+
+### Relationship records should include
+
+- Relationship ID.
+- First entity ID.
+- Second entity ID.
+- Relationship type.
+- Supporting event IDs.
+- Source modules.
+- Timestamp.
+- Confidence.
+- Evidence.
+- Relationship status.
+
+### Important rules
+
+1. Correlation must happen automatically.
+2. Each section must receive relevant relationship updates.
+3. Users should not need to manually connect events.
+4. Preserve the original evidence of every event.
+5. Support relationship updates when new evidence arrives.
+6. Allow incorrect associations to be corrected.
+7. Do not permanently merge different entities simply because they look similar.
+8. Keep causal claims separate from observed associations.
+
+Use configurable time windows for behavioural correlation.
+
+---
+
+# 9. UNIFIED INCIDENT MANAGEMENT
+
+Extend the existing incident-management functionality.
+
+Related events should be grouped into a unified security incident.
+
+Example:
+
+Incident: Possible bank impersonation and payment scam.
+
+Associated events:
+
+- Suspicious call.
+- Suspicious SMS.
+- Extracted phone number.
+- Extracted payment identifier.
+- Related malicious URL.
+
+### Incident record
+
+Include:
+
+- Incident ID.
+- Family ID.
+- Relevant device IDs.
+- Incident category.
+- Involved entity IDs.
+- Associated event IDs.
+- Source modules.
+- Timeline.
+- Risk assessment.
+- Confidence.
+- Supporting evidence.
+- Current status.
+- Recommended actions.
+- Created timestamp.
+- Last updated timestamp.
+- Acknowledgement status.
+- Resolution status.
+
+### Incident statuses
+
+- New.
+- Investigating.
+- Acknowledged.
+- Resolved.
+- False positive.
+- Reopened.
+
+When new evidence appears, update the existing incident if appropriate.
+
+Do not create a new incident for every duplicate event.
+
+Maintain an audit trail of incident changes.
+
+---
+
+# 10. FAMILY-WIDE INTELLIGENCE SHARING
+
+This is a critical requirement.
+
+Guardian must support automatic intelligence synchronisation between all authorised linked family devices.
+
+### Example
+
+1. Child's device detects a suspicious phone number.
+2. The local Call Scam or SMS Scam module analyses it.
+3. The central intelligence layer creates an entity record.
+4. Relevant intelligence is synchronised securely to the family service.
+5. Parent's device receives the update.
+6. Parent's relevant sections update automatically.
+7. If the parent later detects the same number, their device can use the existing intelligence.
+8. Relevant updates are synchronised back to the child's device.
+
+### Family sharing requirements
+
+- Use the existing family-linking and authentication system.
+- Reuse the existing family ID.
+- Only authorised linked devices may participate.
+- Support multiple authorised devices where the existing architecture permits.
+- Share relevant security indicators and incident information.
+- Do not automatically share entire private call logs or SMS inboxes.
+- Do not expose one family's information to another family.
+- Respect account roles and access-control rules.
+- Support device removal and family unlinking.
+- Revoke access when authorisation is removed.
+
+### Family intelligence permissions
+
+Use explicit permissions for:
+
+- Shared entity indicators.
+- Shared risk classifications.
+- Related event summaries.
+- Incident notifications.
+- Detailed evidence access.
+
+A parent should see the security information necessary to protect the family, but must not receive unlimited access to private device content simply because devices are linked.
+
+### Family attribution
+
+Where appropriate, show whether an indicator was discovered on:
+
+- Child's device.
+- Parent's device.
+- Another authorised family device.
+- User-submitted report.
+
+Avoid exposing unnecessary personal information.
+
+---
+
+# 11. SYNCHRONISATION ARCHITECTURE
+
+Implement secure synchronisation using the existing backend.
+
+Do not invent a second backend or database.
+
+### Required capabilities
+
+- Local-first processing.
+- Secure cloud synchronisation.
+- Incremental updates.
+- Offline queues.
+- Retry handling.
+- Duplicate prevention.
+- Version control.
+- Conflict resolution.
+- Synchronisation acknowledgements.
+- Device authorisation.
+- Data retention controls.
+
+### Offline behaviour
+
+If the child's device is offline:
+
+1. Continue local detection where supported.
+2. Save permitted events securely in a local queue.
+3. Mark pending synchronisation.
+4. Retry when connectivity returns.
+5. Synchronise only authorised information.
+6. Update relevant parent and child sections.
+7. Avoid duplicate processing.
+
+The application must clearly distinguish between:
+
+- Locally detected.
+- Pending synchronisation.
+- Successfully synchronised.
+- Synchronisation failed.
+- Permission unavailable.
+
+Never display a false message claiming that the parent has received an alert if delivery has not been confirmed.
+
+### Conflict handling
+
+If two devices update the same entity:
+
+- Preserve original evidence.
+- Use versioned updates.
+- Retain source attribution.
+- Merge compatible intelligence fields.
+- Resolve verification conflicts carefully.
+- Do not let a low-confidence report automatically overwrite a verified status.
+- Maintain an audit history.
+
+---
+
+# 12. SMART RED ALERT INTEGRATION
+
+Integrate the interconnected system with the existing Smart Red Alert System.
+
+The central alert engine must consume relevant information from all modules.
+
+### Example
+
+A suspicious call is followed by a phishing SMS and a malicious payment link.
+
+Guardian should:
+
+1. Collect the individual events.
+2. Identify shared entities.
+3. Correlate relevant events.
+4. Update the incident.
+5. Reassess the combined risk.
+6. Trigger the appropriate alert if the evidence qualifies.
+
+### Alert rules
+
+- Normal activity should not trigger red alerts.
+- Unknown callers alone should not trigger red alerts.
+- Ordinary OTP messages should not trigger red alerts.
+- A weak AI prediction should not trigger red alerts.
+- A suspicious entity association alone should not be treated as confirmed fraud.
+- Red alerts must require adequate supporting evidence and confidence.
+- Critical alerts must require stronger evidence.
+
+Use the existing configurable severity thresholds and confidence requirements.
+
+Do not create another notification system.
+
+Avoid sending duplicate alerts when multiple sections report the same underlying incident.
+
+Parent and child should receive appropriate alerts according to the existing notification preferences and permissions.
+
+---
+
+# 13. USER FEEDBACK AND INTELLIGENCE CORRECTION
+
+Allow users to provide feedback on detected entities and incidents.
+
+Supported actions may include:
+
+- Report as suspicious.
+- Confirm as legitimate.
+- Mark as false positive.
+- Request review.
+- Report an incorrect association.
+
+### Automatic propagation
+
+When feedback is received:
+
+1. Update the relevant entity or incident.
+2. Preserve the original detection evidence.
+3. Notify relevant sections.
+4. Reassess affected events.
+5. Synchronise the permitted update across authorised family devices.
+6. Re-evaluate active alerts where appropriate.
+
+Important:
+
+A user marking one message as legitimate must not automatically mark every message from that sender or every related entity as safe.
+
+Use evidence-specific feedback and controlled verification.
+
+---
+
+# 14. PRIVACY AND SECURITY REQUIREMENTS
+
+Privacy must be part of the architecture, not an afterthought.
+
+Implement:
+
+- Encryption in transit.
+- Encryption at rest where supported.
+- Secure authentication.
+- Family-level access control.
+- Device-level authorisation.
+- Least-privilege access.
+- Data minimisation.
+- Secure local storage.
+- Audit logs.
+- Secure token handling.
+- Data retention and deletion rules.
+- Permission-aware event processing.
+
+### Information sharing restrictions
+
+Never automatically upload or share:
+
+- Entire SMS inboxes.
+- Entire call histories.
+- Contact lists.
+- Call recordings.
+- Private conversations.
+- Unnecessary personal information.
+
+Share only the minimum security indicators, event summaries and evidence references needed for the intended security purpose.
+
+Sensitive evidence should be accessible only to authorised users with appropriate permissions.
+
+Never bypass Android permissions or Google Play restrictions.
+
+If a native Android capability is unavailable, show an accurate capability status.
+
+---
+
+# 15. ANDROID AND PREVIEW COMPATIBILITY
+
+The application is an Android project and is currently being developed and tested using Google AI Studio Preview.
+
+Separate the following capabilities:
+
+1. Preview-compatible UI and application logic.
+2. Backend-dependent synchronisation and intelligence.
+3. Android-native monitoring and permissions.
+4. External services and threat intelligence.
+
+Do not pretend that browser preview can perform native Android call or SMS monitoring.
+
+Use existing Android native integrations where available.
+
+Respect Android background execution restrictions, permission requirements and Google Play policies.
+
+If a feature cannot operate in Preview, provide a clear status rather than fake results.
+
+---
+
+# 16. PERFORMANCE AND RELIABILITY
+
+The interconnected architecture must not make Guardian slow or unstable.
+
+Implement:
+
+- Asynchronous event processing.
+- Efficient entity matching.
+- Indexed database queries.
+- Incremental synchronisation.
+- Event deduplication.
+- Background processing where supported.
+- Controlled retry strategies.
+- Pagination for large histories.
+- Caching of frequently used intelligence.
+- Graceful failure handling.
+
+One unavailable module must not disable the other security modules.
+
+The system must continue functioning when:
+
+- Internet connectivity is lost.
+- The backend is temporarily unavailable.
+- One module fails.
+- One device is offline.
+- A permission is revoked.
+- Synchronisation fails.
+- An event is received more than once.
+
+---
+
+# 17. REQUIRED UI AND DASHBOARD ENHANCEMENTS
+
+Integrate the new architecture into existing screens.
+
+### Individual security sections
+
+Each relevant section should display:
+
+- Direct Detection.
+- Shared Intelligence.
+- Combined Risk Assessment.
+- Related Entities.
+- Related Incidents.
+- Source Information.
+- Synchronisation Status.
+
+### Parent dashboard
+
+Display:
+
+- Relevant family security incidents.
+- Shared suspicious indicators.
+- Security alert status.
+- Related device information.
+- Incident timelines.
+- Synchronisation status.
+- Recommended actions.
+
+### Child dashboard
+
+Display:
+
+- Relevant personal security findings.
+- Shared family intelligence warnings.
+- Suspicious activity alerts.
+- Recommended safety actions.
+- Incident status.
+
+### Security history
+
+Allow authorised users to view:
+
+- Individual events.
+- Shared intelligence updates.
+- Related events.
+- Incident timelines.
+- Risk reassessments.
+- User feedback.
+- Synchronisation history.
+
+Do not create unnecessary new dashboard pages if existing screens can be extended.
+
+---
+
+# 18. REAL-WORLD ACCEPTANCE TESTS
+
+The feature is not complete until the following scenarios work.
+
+## Test 1: SMS to Call Scam
+
+- A suspicious SMS contains a phone number.
+- SMS Scam extracts and records it.
+- Call Scam receives the relevant intelligence.
+- The same number calls later.
+- Call Scam displays the previous association.
+- Its own risk engine reassesses the call.
+
+## Test 2: QR to Payment Safety
+
+- User scans a QR code.
+- Guardian extracts a UPI ID.
+- QR Scam displays the scan information.
+- Payment Safety receives the UPI ID.
+- Future payment-related analysis uses the shared indicator.
+
+## Test 3: QR to Link Scam
+
+- User scans a QR code containing a URL.
+- QR Scam extracts the URL.
+- Link Scam receives it automatically.
+- Link Scam performs its own URL analysis.
+- Both sections display relevant findings.
+
+## Test 4: SMS to Link Scam
+
+- A suspicious SMS contains a phishing URL.
+- SMS Scam analyses the message.
+- Link Scam receives the extracted URL.
+- Link Scam performs independent domain and URL analysis.
+- Related findings are connected.
+
+## Test 5: Call, SMS and Payment Correlation
+
+- Suspicious call detected.
+- Related payment-request SMS received.
+- Payment identifier extracted.
+- Central intelligence identifies the shared entities.
+- Behavioural analysis correlates the events.
+- One incident is created or updated.
+- Alert engine reassesses the incident.
+
+## Test 6: Family-Wide Sharing
+
+- Child's device detects a suspicious entity.
+- Information is synchronised.
+- Parent's device receives the permitted intelligence.
+- Parent's relevant section updates.
+- Parent's device discovers additional evidence.
+- Updated intelligence synchronises back to the child.
+
+## Test 7: Duplicate Prevention
+
+- Same URL is discovered through SMS and QR.
+- Guardian identifies the same entity.
+- One entity record is maintained.
+- Both source events are preserved.
+- Relevant sections receive updates.
+- Duplicate notifications are prevented.
+
+## Test 8: False Positive Correction
+
+- User marks an entity as legitimate.
+- Guardian records the feedback.
+- Relevant sections reassess their findings.
+- The change synchronises across authorised devices.
+- Original evidence is retained.
+
+## Test 9: Offline Synchronisation
+
+- Child's device loses internet connectivity.
+- Local detection continues where supported.
+- Events are queued securely.
+- Internet connectivity returns.
+- Events synchronise successfully.
+- Duplicate records are not created.
+
+## Test 10: Permission Revocation
+
+- User revokes an Android permission.
+- Guardian detects the unavailable capability.
+- It stops claiming that the corresponding monitoring is active.
+- Other functioning modules remain operational.
+
+## Test 11: Family Privacy
+
+- Two unrelated families use Guardian.
+- One family detects a suspicious number.
+- The other family must not receive that family's private event or incident data.
+
+## Test 12: Existing Feature Regression
+
+Verify that:
+
+- Parent login still works.
+- Child login still works.
+- Family linking still works.
+- Existing Call Watcher still works.
+- Existing SMS functionality still works.
+- QR scanning still works.
+- Payment Safety still works.
+- Link analysis still works.
+- Existing notifications still work.
+- Emergency Help still works.
+- Existing Smart Red Alerts still work.
+- Light and dark modes still work.
+
+---
+
+# 19. IMPLEMENTATION PHASES
+
+Do not attempt an uncontrolled complete rewrite.
+
+Implement in the following order.
+
+### Phase 0 – Existing Project Audit
+
+- Inspect the existing codebase.
+- Identify existing modules and services.
+- Identify existing database and backend structures.
+- Identify missing capabilities.
+- Prepare an implementation plan.
+- Do not modify existing code during this phase.
+
+### Phase 1 – Central Intelligence Foundation
+
+- Implement or extend the shared intelligence repository.
+- Establish entity records.
+- Establish event contracts.
+- Establish event processing.
+- Add deduplication and versioning.
+
+### Phase 2 – Section Integration
+
+- Connect Call Scam.
+- Connect SMS Scam.
+- Connect QR Scam.
+- Connect Link Scam.
+- Connect Payment Safety.
+- Connect Behavioural Analysis.
+
+Reuse existing detection logic.
+
+### Phase 3 – Automatic Entity and Event Correlation
+
+- Implement entity normalisation.
+- Implement relationship detection.
+- Implement event correlation.
+- Implement incident grouping.
+- Implement automatic reassessment.
+
+### Phase 4 – Family-Wide Synchronisation
+
+- Integrate with existing family accounts.
+- Implement authorised device registration.
+- Implement secure synchronisation.
+- Implement offline queues.
+- Implement conflict handling.
+- Implement access revocation.
+
+### Phase 5 – UI Integration
+
+- Add Direct Detection and Shared Intelligence to relevant sections.
+- Update existing dashboard components.
+- Display source attribution.
+- Display incident relationships.
+- Display synchronisation status.
+
+### Phase 6 – Alert and Feedback Integration
+
+- Integrate with existing Smart Red Alert System.
+- Implement incident-aware notifications.
+- Implement user feedback propagation.
+- Ensure duplicate alert prevention.
+
+### Phase 7 – Testing and Hardening
+
+- Execute all acceptance tests.
+- Test permissions.
+- Test offline conditions.
+- Test family access boundaries.
+- Test existing feature regression.
+- Fix actual implementation errors.
+
+---
+
+# 20. REQUIRED DELIVERABLES
+
+After implementation, provide:
+
+1. Summary of the existing architecture.
+2. List of existing modules reused.
+3. List of files modified.
+4. List of new files created, with justification.
+5. Database and event schema changes.
+6. Explanation of how each section is connected.
+7. Explanation of family-wide synchronisation.
+8. Explanation of privacy and access controls.
+9. Android-specific limitations.
+10. Test results.
+11. Remaining incomplete features and dependencies.
+
+Do not claim an acceptance test passed unless it was actually executed.
+
+Do not silently leave placeholder functions, mock services or simulated synchronisation in the production implementation.
+
+---
+
+# FINAL NON-NEGOTIABLE REQUIREMENT
+
+Guardian must function as ONE interconnected family security ecosystem containing multiple specialised security sections.
+
+All sections must:
+
+- Retain their own detection capabilities.
+- Automatically share relevant intelligence.
+- Receive information from other applicable sections.
+- Maintain separate Direct Detection and Shared Intelligence displays.
+- Independently analyse shared information.
+- Automatically correlate related entities and events.
+- Update related incidents.
+- Synchronise permitted intelligence across authorised family devices.
+- Work reliably when individual modules or devices are temporarily unavailable.
+
+The user should never need to manually enter the same suspicious phone number, UPI ID, URL or other indicator in multiple Guardian sections.
+
+**ONE DETECTION → SHARED INTELLIGENCE → MULTIPLE RELEVANT SECTIONS UPDATED → UNIFIED FAMILY PROTECTION.**
+
+Most importantly, implement this by extending the existing Guardian project. Do not rewrite, overwrite, duplicate, remove or break existing functionality.

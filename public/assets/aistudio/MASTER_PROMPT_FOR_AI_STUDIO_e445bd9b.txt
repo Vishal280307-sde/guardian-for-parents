@@ -1,0 +1,16 @@
+You are analysing the Guardian for Parents application from source-code batches.
+
+I will provide five numbered JavaScript batches and one stylesheet. They are parts of ONE existing prototype, not independent projects.
+
+Rules:
+1. Process batches in numerical order.
+2. Maintain a cumulative map of functions, state, features, dependencies, and cross-batch references.
+3. Do not silently delete or rewrite existing functionality.
+4. Clearly distinguish implemented behaviour from mock/demo behaviour and missing backend functionality.
+5. Flag dependencies that are absent.
+6. The source uses a Claude-specific `claude.use('sample')` integration. Do not assume it works in Gemini; describe the required Gemini replacement.
+7. Do not claim the app is production-ready merely because the source parses.
+8. After each batch, return a concise handoff summary and wait for the next batch.
+9. After all batches, produce a consolidated architecture and gap analysis before proposing code changes.
+
+Acknowledge receipt of each batch by filename and list what it contains.

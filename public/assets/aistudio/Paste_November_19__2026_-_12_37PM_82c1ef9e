@@ -1,0 +1,942 @@
+# MASTER IMPLEMENTATION PROMPT
+## GUARDIAN FOR PARENTS – AI CALL WATCHER & PAYMENT CORRELATION INTELLIGENCE
+
+### ROLE
+
+Act as a senior Android developer, software architect, cybersecurity engineer, AI integration specialist, and experienced full-stack engineer.
+
+Your task is to **extend the existing Guardian for Parents project** by implementing an advanced AI-powered Call Watcher system.
+
+This is an enhancement to an existing application, NOT a request to create a new application or rewrite the existing codebase.
+
+You must first inspect the existing project, understand its architecture, identify existing Call Watcher functionality, and then implement the new functionality incrementally.
+
+---
+
+# 1. NON-NEGOTIABLE PROJECT PRESERVATION RULES
+
+These instructions have the highest priority.
+
+1. Do not rewrite the entire application.
+2. Do not replace the existing project architecture.
+3. Do not recreate existing features that are already implemented.
+4. Do not introduce duplicate dashboards, components, authentication systems, database tables, navigation routes, or services.
+5. Do not remove, rename, or overwrite existing working functions.
+6. Do not change the existing application concept, branding, design language, or user experience unnecessarily.
+7. Do not modify unrelated features.
+8. Do not replace existing database schemas when adding new functionality.
+9. Reuse existing authentication, user roles, parent-child relationships, notification systems, backend services, and UI components wherever possible.
+10. Preserve the existing Parent and Student/Guardian roles and their permissions.
+11. Maintain the existing light and dark themes.
+12. Do not create mock functionality and present it as a working feature.
+13. Do not hardcode fake call records, SMS messages, transaction details, AI results, or notifications.
+14. Do not silently remove existing functionality to make the new implementation easier.
+
+### Required development approach
+
+Before making changes:
+
+- Inspect the complete project structure.
+- Identify the current technology stack.
+- Identify the existing Call Watcher implementation.
+- Identify existing call-related permissions and Android integrations.
+- Inspect authentication and role management.
+- Inspect the database schema and existing notification infrastructure.
+- Identify reusable services and components.
+- Identify the existing app's Android integration method.
+
+Create an implementation plan showing which existing files need modification and which new files are genuinely necessary.
+
+Only modify files directly related to this feature.
+
+If an existing component already performs a required task, extend it rather than creating another component.
+
+---
+
+# 2. FEATURE OBJECTIVE
+
+Implement an intelligent, consent-based Call Watcher that identifies potentially suspicious relationships between incoming calls and subsequent financial activity.
+
+The system must:
+
+- Activate after one-time user consent.
+- Automatically monitor supported call events.
+- Automatically monitor payment-related SMS where Android permissions and distribution policies allow.
+- Never listen to call audio.
+- Never record calls.
+- Never transcribe conversations.
+- Analyse call metadata and payment-message information.
+- Identify suspicious patterns and unusual timing relationships.
+- Ask the student a few safety questions when an unknown caller is involved and a relevant event warrants follow-up.
+- Notify both the student and linked parent.
+- Maintain an understandable chronological safety timeline.
+
+The primary objective is to identify potential social engineering, payment fraud, impersonation, and coercive financial activity.
+
+The system must never claim that a call caused a payment merely because the events happened close together.
+
+---
+
+# 3. ONE-TIME ACTIVATION AND CONSENT
+
+Add an activation mechanism to the existing Call Watcher interface.
+
+On the first activation, explain:
+
+- What information Guardian monitors.
+- Why call metadata is required.
+- Why payment-related SMS information is required.
+- How AI analyses event patterns.
+- What information may be shared with the linked parent.
+- What Android permissions are required.
+- That call audio is never accessed, recorded, or transcribed.
+- How the user can pause or disable monitoring.
+
+Ask the user for explicit consent.
+
+After consent and successful permission configuration:
+
+- Enable supported monitoring automatically.
+- Do not repeatedly request activation.
+- Maintain the user's monitoring preference.
+- Resume supported monitoring after application restarts.
+- Clearly show when monitoring is active, partially active, paused, or unavailable.
+
+Provide settings to:
+
+- Pause monitoring.
+- Resume monitoring.
+- Revoke monitoring consent.
+- Review permissions.
+- View the last successful monitoring event.
+
+One-time consent must not bypass Android runtime permissions or OS restrictions.
+
+If permissions are revoked, immediately update the monitoring status and explain which functionality is unavailable.
+
+---
+
+# 4. AUTOMATIC CALL METADATA MONITORING
+
+Implement an Android-native call event monitoring module using supported Android APIs.
+
+Capture the following information where technically and legally permitted:
+
+- Caller number or available caller identifier.
+- Caller contact status.
+- Known or unknown caller classification.
+- Incoming call timestamp.
+- Call start timestamp, where available.
+- Call end timestamp, where available.
+- Call duration.
+- Call status:
+  - Answered.
+  - Missed.
+  - Rejected.
+  - Unavailable.
+- SIM information, if available and necessary.
+
+### Caller classification
+
+Classify callers as:
+
+1. Known Contact
+2. Unknown Number
+3. Private/Hidden Number
+4. Unavailable Caller Information
+
+Use the existing contact access and permission structure if available.
+
+Do not automatically classify an unknown caller as fraudulent.
+
+### Call duration
+
+Calculate duration using reliable call event timestamps or authorised call-log information.
+
+If duration cannot be obtained, mark it as unavailable.
+
+Never fabricate duration values.
+
+### Strict privacy restrictions
+
+The application must NEVER:
+
+- Access microphone audio for this feature.
+- Record phone calls.
+- Capture conversations.
+- Transcribe call audio.
+- Intercept call content.
+- Secretly monitor conversations.
+
+Only supported call metadata is permitted.
+
+---
+
+# 5. AUTOMATIC PAYMENT SMS MONITORING
+
+Implement an automatic payment-message monitoring module for Android.
+
+The system should detect relevant financial messages, including:
+
+- UPI transactions.
+- Bank debit messages.
+- Bank credit messages.
+- Payment confirmations.
+- Money transfer messages.
+- Wallet transactions.
+- Card transaction notifications.
+- Failed payment notifications.
+- Payment requests and collection requests, where identifiable.
+- Suspicious payment-related messages.
+
+### Message information extraction
+
+Where available, extract:
+
+- Sender or originating address.
+- Message timestamp.
+- Transaction amount.
+- Currency.
+- Transaction type.
+- Transaction reference.
+- UPI reference or transaction ID.
+- Account identifier in masked form.
+- Merchant or recipient name.
+- Payment status.
+- Relevant payment description.
+
+Distinguish between:
+
+- Successful transaction.
+- Failed transaction.
+- Pending transaction.
+- Payment request.
+- Promotional message.
+- Informational banking message.
+- Unknown or unclassified message.
+
+Never assume a payment has succeeded merely because an SMS mentions an amount.
+
+### Android permission architecture
+
+Before implementing SMS access, inspect the existing Android application structure and determine which integration is actually supported.
+
+Evaluate:
+
+1. Direct SMS permissions, where legally and technically permitted.
+2. Default SMS handler integration, if required and explicitly accepted by the user.
+3. Notification Listener integration as a fallback where appropriate.
+4. User-assisted message sharing as a final fallback.
+
+IMPORTANT:
+
+- Do not assume READ_SMS or RECEIVE_SMS permissions will be approved by Google Play.
+- Do not assume Guardian automatically qualifies for a policy exception.
+- Verify current Google Play SMS and Call Log permission requirements.
+- Do not force Guardian to become the default SMS application without explicit user agreement.
+- Do not break the user's existing default SMS or Phone application.
+- Do not silently activate Notification Listener access.
+- Explain all required permissions before requesting them.
+
+If automatic SMS access is unavailable, implement an honest fallback and clearly communicate that monitoring is limited.
+
+Never display an "Automatic SMS Monitoring Active" status when the application cannot actually access the required information.
+
+---
+
+# 6. CALL AND PAYMENT CORRELATION ENGINE
+
+This is the core intelligence component.
+
+Develop a dedicated event-correlation engine that connects call metadata with subsequent payment-related SMS events.
+
+### Example scenario
+
+10:30 AM – Unknown caller calls the student.
+
+10:38 AM – Call ends.
+
+10:42 AM – A bank payment message is received.
+
+10:43 AM – Guardian identifies a close temporal relationship.
+
+10:44 AM – Guardian asks the student whether the caller requested money or created urgency.
+
+The AI must explain that the timing is potentially relevant but does not establish causation.
+
+### Patterns to detect
+
+A. Call followed by payment:
+
+- Unknown call followed by debit SMS.
+- Unknown call followed by UPI transaction.
+- Unknown call followed by wallet transfer.
+- Repeated calls followed by multiple payment messages.
+
+B. Repeated behaviour:
+
+- Multiple calls from unknown numbers.
+- Repeated calls from the same number.
+- Multiple financial messages following calls.
+- Similar call-to-payment timing patterns.
+- Repeated pressure reported by the student.
+
+C. Suspicious behavioural indicators:
+
+- Caller requesting immediate payment.
+- Caller demanding OTP or UPI PIN.
+- Caller asking for bank credentials.
+- Caller asking the student to install remote-access applications.
+- Caller threatening account closure or legal consequences.
+- Caller creating urgency or emotional pressure.
+- Caller impersonating a bank, government authority, company, or known person.
+
+D. Unusual timing:
+
+- Payment immediately after a suspicious call.
+- Repeated payment events within a short period.
+- Unusual activity relative to user-configured preferences.
+
+### Correlation rules
+
+- Do not treat timing alone as proof of fraud.
+- Do not assume every unknown caller is dangerous.
+- Do not assume every payment following a call is suspicious.
+- Do not label a legitimate transaction as fraud without supporting indicators.
+- Distinguish a payment request from a completed payment.
+- Distinguish repeated SMS notifications from separate transactions.
+- Avoid counting duplicate messages as separate financial events.
+- Use authorised historical data only when available.
+
+---
+
+# 7. SEPARATE RISK ASSESSMENT
+
+Maintain separate risk assessments.
+
+### A. Call Risk
+
+Assess:
+
+- Unknown caller status.
+- Repeated contact.
+- Reported urgency.
+- Threats or pressure.
+- Requests for confidential information.
+- Impersonation indicators.
+- Suspicious call/payment timing.
+
+### B. Payment Risk
+
+Assess:
+
+- Transaction type.
+- Payment status.
+- Available transaction information.
+- Relationship to a suspicious call.
+- Repeated payment events.
+- Student-reported circumstances.
+- Available configured spending thresholds.
+
+### Risk categories
+
+Use:
+
+1. Low Risk
+2. Moderate Risk
+3. High Risk
+4. Critical Risk
+5. Inconclusive
+
+Every assessment must include:
+
+- Risk category.
+- Supporting evidence.
+- Detected patterns.
+- Missing information.
+- Recommended action.
+- Assessment timestamp.
+
+Do not use arbitrary risk scores without an explainable scoring mechanism.
+
+Do not claim access to bank balances, transaction histories, or external fraud databases unless an authorised integration actually provides that information.
+
+A high transaction amount alone must never establish fraud.
+
+---
+
+# 8. UNKNOWN CALLER SAFETY QUESTIONNAIRE
+
+Implement an adaptive questionnaire.
+
+The questionnaire should be triggered when:
+
+- An unknown caller is involved in a relevant event.
+- A payment-related message follows a call.
+- A suspicious pattern is detected.
+- Additional user context is necessary for a meaningful risk assessment.
+
+Do not question the user after every ordinary unknown call.
+
+### Suggested questions
+
+Question 1:
+
+"What did the caller ask you to do?"
+
+Options:
+- Make a payment.
+- Receive money.
+- Share personal information.
+- Share banking information.
+- Install an application.
+- Normal conversation.
+- Something else.
+
+Question 2:
+
+"Did the caller create urgency or pressure you to act immediately?"
+
+Options:
+- Yes.
+- No.
+- Not sure.
+
+Question 3:
+
+"Did the caller ask for an OTP, UPI PIN, password, or banking credentials?"
+
+Options:
+- Yes.
+- No.
+- Not sure.
+
+Question 4:
+
+"How did you feel during the call?"
+
+Options:
+- Normal and comfortable.
+- Confused.
+- Pressured.
+- Threatened.
+- Suspicious.
+
+### Adaptive questionnaire behaviour
+
+- Ask only relevant questions.
+- Avoid unnecessary repeated questions.
+- Remember previous feedback for the same caller within the permitted retention period.
+- Ask again only if a materially different suspicious event occurs.
+- Allow the user to dismiss or postpone questions.
+- Store the answers with the corresponding event.
+- Use answers to update the risk assessment.
+
+### Critical safety response
+
+If the student reports that someone requested an OTP, UPI PIN, password, or remote access:
+
+Immediately display a prominent safety warning.
+
+Explain:
+
+- Never share an OTP or UPI PIN.
+- Never approve an unknown payment request.
+- Never install remote-access applications at a caller's request.
+- End the interaction if the caller continues applying pressure.
+- Contact the bank through its official channel if a suspicious transaction occurred.
+
+Never ask the student to enter their actual OTP or PIN into Guardian.
+
+---
+
+# 9. STUDENT AND PARENT NOTIFICATION SYSTEM
+
+Both the student and linked parent must receive relevant notifications.
+
+Use the existing notification infrastructure wherever possible.
+
+### Notification events
+
+1. Payment-related SMS detected.
+2. Unknown call detected, where configured.
+3. Payment message received shortly after a call.
+4. Suspicious call/payment correlation detected.
+5. Student reports pressure or suspicious behaviour.
+6. OTP or UPI PIN request reported.
+7. Critical safety risk detected.
+8. Monitoring permissions revoked.
+9. Monitoring service unavailable.
+
+### Notification severity
+
+- Informational.
+- Warning.
+- High Priority.
+- Critical.
+
+### Notification content
+
+Each notification should include:
+
+- Event type.
+- Event timestamp.
+- Risk category.
+- Brief explanation.
+- Relevant call/payment relationship.
+- Recommended next action.
+- Link to the Call Watcher report.
+
+### Privacy requirements
+
+- Do not unnecessarily expose full SMS content in lock-screen notifications.
+- Avoid sharing sensitive account details.
+- Respect existing parent-child access controls.
+- Deliver notifications only to authorised linked accounts.
+- Keep student and parent notification states synchronised where appropriate.
+
+If the device is offline, queue notifications securely and deliver them when connectivity returns.
+
+Do not falsely show notifications as delivered when delivery has not been confirmed.
+
+---
+
+# 10. CALL WATCHER DASHBOARD AND EVENT TIMELINE
+
+Extend the existing Call Watcher interface.
+
+Do not create an entirely new dashboard if an existing Call Watcher dashboard is available.
+
+Add the following information to the existing interface.
+
+### Monitoring status
+
+- Active.
+- Partially Active.
+- Paused.
+- Permission Required.
+- Service Unavailable.
+
+### Activity summary
+
+- Total monitored call events.
+- Unknown caller events.
+- Payment-related messages detected.
+- Suspicious correlations.
+- Pending safety questions.
+- Critical alerts.
+
+### Chronological event timeline
+
+Display:
+
+- Incoming call.
+- Call duration.
+- Caller classification.
+- Payment message received.
+- Transaction information available.
+- AI risk assessment.
+- Student feedback.
+- Parent notification status.
+
+Allow the user to open individual events for more information.
+
+### Event report
+
+Each report should contain:
+
+- Event ID.
+- Call metadata.
+- Payment-message metadata.
+- Time difference between call and payment message.
+- Correlation explanation.
+- AI assessment.
+- Student feedback.
+- Parent notification status.
+- Recommended safety actions.
+
+Clearly distinguish verified data, extracted data, inferred information, and unavailable information.
+
+---
+
+# 11. AI IMPLEMENTATION REQUIREMENTS
+
+Use the existing AI infrastructure and model integration wherever possible.
+
+Do not create duplicate AI services or API integrations.
+
+The AI should:
+
+- Explain detected patterns in simple language.
+- Analyse the relationship between calls and payment messages.
+- Interpret student questionnaire answers.
+- Generate concise risk explanations.
+- Recommend relevant safety actions.
+- Identify recurring suspicious patterns.
+- Avoid false accusations.
+- Avoid unsupported claims.
+
+### AI data rules
+
+The AI must receive structured, validated information from the application.
+
+Do not give the AI unrestricted access to the user's entire SMS inbox or contact list.
+
+Do not invent:
+
+- Caller identities.
+- Transaction amounts.
+- Bank details.
+- Payment success.
+- Fraud reports.
+- Caller reputation.
+- Transaction history.
+- Verification status.
+
+AI-generated results must be distinguishable from verified system data.
+
+If the AI service is unavailable, basic event monitoring and rule-based safety alerts should continue wherever technically supported.
+
+---
+
+# 12. BACKEND AND DATABASE INTEGRATION
+
+Inspect the existing database before introducing any schema changes.
+
+Reuse existing users, accounts, parent-child relationships, notification tables, and event structures.
+
+If additional data structures are necessary, add only the minimum required fields or tables.
+
+Potential logical entities:
+
+- CallWatcherSettings
+- CallEvents
+- PaymentMessageEvents
+- EventCorrelations
+- RiskAssessments
+- StudentSafetyResponses
+- CallWatcherNotifications
+- MonitoringPermissionStatus
+
+These are conceptual entities, not instructions to blindly create duplicate database tables.
+
+### Required backend principles
+
+- Associate every event with the correct authenticated student.
+- Validate parent-child relationships on the backend.
+- Prevent unauthorised access to another student's information.
+- Use secure APIs.
+- Encrypt sensitive stored data.
+- Avoid storing unnecessary full SMS content.
+- Use appropriate retention and deletion policies.
+- Maintain audit logs for sensitive parent access.
+- Protect against duplicate event processing.
+- Use unique event identifiers and idempotent processing.
+
+Do not break existing database relationships or migrations.
+
+---
+
+# 13. ANDROID TECHNICAL COMPATIBILITY
+
+The implementation must be Android-native for capabilities that require native Android access.
+
+Inspect the project's existing architecture before deciding how to integrate:
+
+- Android telephony APIs.
+- CallScreeningService, where appropriate.
+- Supported phone-state or call-log integrations.
+- SMS APIs, where permitted.
+- Notification Listener Service, where appropriate.
+- Android background execution mechanisms.
+- Runtime permission management.
+- Foreground service requirements, if applicable.
+- Secure background event processing.
+
+Do not assume that a web application or Google AI Studio Preview can access incoming calls, call logs, or SMS automatically.
+
+If the existing project is web-based, implement only the required native Android integration layer while preserving the existing application frontend and backend.
+
+Do not introduce unnecessary native rewrites.
+
+### Device compatibility
+
+Handle:
+
+- Android version differences.
+- Dual SIM devices.
+- Permission denial.
+- Permission revocation.
+- Battery optimisation.
+- Device restart.
+- Offline operation.
+- Background restrictions.
+- Missing call metadata.
+- Hidden SMS notification previews.
+
+Do not promise continuous monitoring when Android or the device manufacturer prevents it.
+
+---
+
+# 14. SECURITY, PRIVACY AND USER CONTROL
+
+Security is mandatory.
+
+Implement:
+
+- Explicit user consent.
+- Transparent permission requests.
+- Secure event storage.
+- Role-based access control.
+- Parent-child relationship validation.
+- Minimum necessary data collection.
+- Appropriate encryption.
+- Secure backend communication.
+- Audit trails.
+- Configurable retention.
+- User-controlled monitoring settings.
+
+Never collect call audio for this feature.
+
+Never store or request:
+
+- UPI PIN.
+- OTP.
+- Banking passwords.
+- Card CVV.
+- Unnecessary complete account numbers.
+
+Do not secretly monitor the student.
+
+Make the monitoring status visible to the student.
+
+---
+
+# 15. ERROR HANDLING AND EDGE CASES
+
+Handle all of the following:
+
+- User denies call permissions.
+- User denies SMS permissions.
+- User disables Notification Listener access.
+- Android does not provide caller identity.
+- Call duration is unavailable.
+- SMS content is hidden.
+- Duplicate payment messages arrive.
+- Payment message arrives before a delayed call event.
+- Internet connectivity is lost.
+- AI service fails.
+- Backend is unavailable.
+- Parent account is unlinked.
+- Student account is logged out.
+- Permissions are revoked.
+- Application is force-stopped.
+- Device restarts.
+- Background monitoring is restricted.
+
+Display clear explanations rather than silently failing.
+
+Do not fabricate missing events or data.
+
+---
+
+# 16. TESTING REQUIREMENTS
+
+Before declaring the feature complete, test:
+
+### Consent and permissions
+- First-time activation.
+- Consent rejection.
+- Permission approval.
+- Permission denial.
+- Permission revocation.
+- Monitoring pause and resume.
+
+### Call monitoring
+- Known caller.
+- Unknown caller.
+- Private caller.
+- Answered call.
+- Missed call.
+- Rejected call.
+- Unavailable duration.
+
+### Payment monitoring
+- UPI debit message.
+- Bank credit message.
+- Payment confirmation.
+- Failed transaction.
+- Payment request.
+- Promotional SMS.
+- Duplicate message.
+- Hidden notification preview.
+
+### Correlation
+- Unknown call followed by payment.
+- Known call followed by payment.
+- Multiple calls followed by one payment.
+- One call followed by multiple payment messages.
+- No relationship between call and payment.
+- Delayed or out-of-order events.
+
+### AI and questionnaire
+- Normal conversation.
+- Payment pressure.
+- OTP request.
+- UPI PIN request.
+- Threatening caller.
+- User dismisses questionnaire.
+- AI service unavailable.
+
+### Notifications
+- Student notification.
+- Parent notification.
+- Both receive notifications.
+- Parent-child relationship removed.
+- Device offline.
+- Notification retry.
+
+### Regression testing
+
+Verify that:
+
+- Existing authentication still works.
+- Parent login still works.
+- Student/Guardian login still works.
+- Existing dashboards remain functional.
+- Existing navigation remains intact.
+- Existing features remain operational.
+- Existing notifications are not duplicated.
+- Light and dark themes remain functional.
+- No unrelated project functionality has changed.
+
+---
+
+# 17. IMPLEMENTATION WORKFLOW
+
+Follow this order.
+
+**Phase 1 – Project audit**
+
+Inspect the existing project and prepare an architecture report.
+
+Identify the existing components that can be reused.
+
+**Phase 2 – Technical feasibility**
+
+Determine the Android version requirements, native integration requirements, permissions, Google Play policy implications, and fallback mechanisms.
+
+Do not assume that all permissions are obtainable.
+
+**Phase 3 – Architecture extension**
+
+Extend the existing Call Watcher architecture.
+
+Add only the necessary modules and integrations.
+
+**Phase 4 – Android event monitoring**
+
+Implement supported call metadata monitoring and payment-message monitoring.
+
+**Phase 5 – Event correlation**
+
+Implement the correlation engine and duplicate-event protection.
+
+**Phase 6 – AI intelligence**
+
+Integrate risk analysis and the adaptive student questionnaire.
+
+**Phase 7 – Parent and student alerts**
+
+Extend the existing notification system.
+
+**Phase 8 – UI integration**
+
+Extend the existing Call Watcher dashboard and event timeline without replacing the existing design.
+
+**Phase 9 – Security and testing**
+
+Run functional, permission, security, and regression tests.
+
+**Phase 10 – Final verification**
+
+Verify that all existing features still work and that the new feature behaves correctly on a real Android device.
+
+---
+
+# 18. STRICT COMPLETION CRITERIA
+
+Do not mark the feature complete merely because the UI has been created.
+
+The feature is complete only when:
+
+1. One-time activation works.
+2. Monitoring permissions are requested transparently.
+3. Supported call metadata is captured correctly.
+4. Payment-message monitoring works through an approved Android integration.
+5. Call and payment events are correlated correctly.
+6. AI risk assessments are explainable.
+7. Unknown-caller questions work correctly.
+8. Both student and parent receive configured notifications.
+9. The event timeline displays accurate information.
+10. Permission failures are handled properly.
+11. Sensitive information is protected.
+12. Existing project features remain intact.
+13. Regression tests pass.
+14. Real-device limitations are documented.
+
+---
+
+# 19. FINAL DEVELOPMENT REPORT
+
+After implementation, provide a report containing:
+
+- Existing architecture inspected.
+- Existing components reused.
+- Files modified.
+- New files created.
+- Database changes.
+- Android permissions required.
+- Android integrations implemented.
+- Google Play policy considerations.
+- AI functionality implemented.
+- Parent notification functionality.
+- Student notification functionality.
+- Tests completed.
+- Tests that failed.
+- Known limitations.
+- Features that require additional approval or permissions.
+
+Clearly distinguish:
+
+- Fully implemented.
+- Partially implemented.
+- Blocked by Android permissions or policies.
+- Requires manual configuration.
+- Not implemented.
+
+Never claim that an Android integration works unless it has actually been tested.
+
+---
+
+# FINAL INSTRUCTION
+
+**EXTEND THE EXISTING GUARDIAN FOR PARENTS PROJECT. DO NOT REBUILD IT.**
+
+Preserve every existing working feature, component, authentication flow, database relationship, navigation route, and design element.
+
+Implement the Call Watcher extension incrementally, using reusable existing code wherever possible.
+
+Do not create duplicate features.
+
+Do not overwrite unrelated code.
+
+Do not use mock data to simulate real Android functionality.
+
+Do not bypass Android permission requirements or Google Play policies.
+
+If a requirement cannot be implemented in the current architecture, explain the limitation and implement the safest compatible alternative without damaging the existing application.
+
+Prioritise correctness, privacy, security, Android compatibility, and backward compatibility over rushing implementation.
+
+**The final result must be a functional extension of the existing Guardian for Parents application, not a replacement for it.**
